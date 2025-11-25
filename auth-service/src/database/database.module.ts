@@ -9,7 +9,7 @@ import { join } from 'path';
       database: 'auth.sqlite', // This file will be created
       entities: [join   (__dirname, '..', '**', '*.entity.{ts,js}')],
       migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
-      synchronize: false, // <-- This is what you want
+      synchronize: false, 
     }),
   ],
   exports: [TypeOrmModule],
