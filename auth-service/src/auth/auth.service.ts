@@ -1,22 +1,28 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { User, UserStatus } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
+import { OtpModule } from 'src/otp/otp.module';
+import { OtpService } from 'src/otp/otp.service';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepo: Repository<User>,
+    @Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy,
     private jwt: JwtService,
+    private otpService: OtpService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -30,9 +36,17 @@ export class AuthService {
     const user = this.usersRepo.create({
       email: dto.email,
       password: hashed,
+      status: UserStatus.PENDING,
     });
 
     await this.usersRepo.save(user);
+
+    const { otp } = await this.otpService.generateOtp({ email: user.email });
+
+    this.client.emit('send_otp', { data: { otp: otp } }).subscribe({
+      complete: () => console.log('Producer: Message emitted!'),
+      error: (err) => console.error('Producer error:', err),
+    });
 
     return { message: 'User registered successfully' };
   }

@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { DatabaseModule } from './database/database.module';
-import { AuthModule } from './auth/auth.module';
-import { OtpModule } from './otp/otp.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { NotificationModule } from './notification/notification.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, DatabaseModule, OtpModule, RabbitmqModule, NotificationModule],
+  imports: [RabbitmqModule, NotificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
