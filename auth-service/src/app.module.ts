@@ -6,10 +6,9 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { OtpModule } from './otp/otp.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
-import { NotificationModule } from './notification/notification.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, DatabaseModule, OtpModule, RabbitmqModule, NotificationModule],
+  imports: [UsersModule, AuthModule, DatabaseModule, OtpModule, RabbitmqModule],
   controllers: [AppController],
   providers: [AppService],
 })

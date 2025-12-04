@@ -26,10 +26,10 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const exists = await this.usersRepo.findOne({
+    const existUser = await this.usersRepo.findOne({
       where: { email: dto.email },
     });
-    if (exists) throw new BadRequestException('Email already exists');
+    if (existUser) throw new BadRequestException('Email already exists');
 
     const hashed = await bcrypt.hash(dto.password, 10);
 
@@ -43,7 +43,7 @@ export class AuthService {
 
     const { otp } = await this.otpService.generateOtp({ email: user.email });
 
-    this.client.emit('send_otp', { data: { otp: otp } }).subscribe({
+    this.client.emit('send_otp', { data: {user: user.email, otp: otp } }).subscribe({
       complete: () => console.log('Producer: Message emitted!'),
       error: (err) => console.error('Producer error:', err),
     });

@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { NotificationModule } from './notification/notification.module';
+import { ConfigModule } from '@nestjs/config';
+import { RabbitmqProducerModule } from './rabbitmq/rabbitmq-producer.module';
 
 @Module({
-  imports: [RabbitmqModule, NotificationModule],
+  imports: [ 
+    ConfigModule.forRoot({
+      isGlobal: true, // để toàn app dùng được
+    }),
+    RabbitmqProducerModule,
+    NotificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
