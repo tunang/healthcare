@@ -8,9 +8,8 @@ async function bootstrap() {
 
   // Listen RabbitMQ
   app.connectMicroservice(RabbitmqConsumerModule.getRMQconfig());
-
-  // ⭐ BẠN ĐANG THIẾU DÒNG NÀY
   await app.startAllMicroservices();
+  
   await app.listen(port);
 
   // 🚀 Console logs
