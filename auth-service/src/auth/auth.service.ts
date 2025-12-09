@@ -43,7 +43,7 @@ export class AuthService {
 
     const { otp } = await this.otpService.generateOtp({ email: user.email });
 
-    this.client.emit('send_otp', { data: {user: user.email, otp: otp } }).subscribe({
+    this.client.emit('send_otp', {user: user.email, otp: otp }).subscribe({
       complete: () => console.log('Producer: Message emitted!'),
       error: (err) => console.error('Producer error:', err),
     });

@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
-import { AuthModule } from './auth/auth.module';
-import { OtpModule } from './otp/otp.module';
-import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
+import { AppointmentModule } from './appointment/appointment.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -13,11 +10,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true, // để toàn app dùng được
     }),
-    UsersModule,
-    AuthModule,
-    OtpModule,
     DatabaseModule,
-    RabbitmqModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

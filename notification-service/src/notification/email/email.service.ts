@@ -17,6 +17,7 @@ export class EmailService {
 
   async sendVerificationEmail(data: any) {
     try {
+      console.log(data.user)
       console.log(`Sending email to ${data.user}`)
       const {user, otp} = data;
       const info = await this.transporter.sendMail({
@@ -24,10 +25,10 @@ export class EmailService {
         to: user, // Receiver address (e.g., from RabbitMQ payload)
         subject: 'Welcome to our platform!',
         text: `Hello ${user}, welcome to our service!`,
-        html: `<b>Hello ${user}</b>, welcome to our service!`,
+        html: `<b>Hello ${user}</b>, welcome to our service!, ${otp.code}`,
       });
 
-      console.log('Email sent successfully:', info.messageId);
+      console.log('Email sent successfully:', info);
       return info;
     } catch (error) {
       console.error('Error sending email:', error);
@@ -36,5 +37,13 @@ export class EmailService {
     }
   }
 
-  async sendResetPasswordEmail
+  async sendResetPasswordEmail(data: any){
+    try {
+      
+    } catch (error) {
+       console.error('Error sending email:', error);
+      // In a real app, you might want to throw this error so RabbitMQ can retry
+      throw error;
+    }
+  }
 }

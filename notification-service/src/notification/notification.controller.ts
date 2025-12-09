@@ -8,12 +8,11 @@ export class NotificationController {
 
     @EventPattern('send_otp')
     async handleUserCreated(data: any){
-        console.log("Receive data")
         this.notificationService.handleUserCreated(data)
     }
 
-    @EventPattern('send_reset_password')
-    async handleResetPasswordRequest(data: any){
-        
-    }
+    // @EventPattern('send_reset_password')
+    // async handleResetPasswordRequest(data: any){
+    //     console.kig
+    // }
 }
