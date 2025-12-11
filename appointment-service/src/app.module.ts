@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthProducerGRPCModule } from './proto/auth-producer.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true, // để toàn app dùng được
     }),
     DatabaseModule,
+    AuthProducerGRPCModule,
     AppointmentModule,
   ],
   controllers: [AppController],

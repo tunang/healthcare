@@ -1,10 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Setup gRPC
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      package: 'auth', // Trùng với package trong file .proto
+      protoPath: join(__dirname,'../../', 'src/proto/auth.proto'), // Đường dẫn tới file .proto
+      url: 'localhost:50051', // Port chạy gRPC
+    },
+  });
 
+  await app.startAllMicroservices();
   // Swagger Config
   const config = new DocumentBuilder()
     .setTitle('Auth Service API')

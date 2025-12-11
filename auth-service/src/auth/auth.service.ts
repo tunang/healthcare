@@ -20,7 +20,10 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepo: Repository<User>,
-    @Inject('RABBITMQ_SERVICE') private readonly client: ClientProxy,
+
+    @Inject('RABBITMQ_SERVICE') 
+    private readonly client: ClientProxy,
+
     private jwt: JwtService,
     private otpService: OtpService,
   ) {}
@@ -65,5 +68,12 @@ export class AuthService {
       message: 'Login successful',
       accessToken,
     };
+  }
+
+  async validateUserById(data:{ id: number; role: string }){
+    const {id, role} = data
+    const user = await this.usersRepo.findOneBy({ id });
+
+    return user?.role === role
   }
 }
