@@ -21,7 +21,7 @@ export class AuthService {
     @InjectRepository(User)
     private usersRepo: Repository<User>,
 
-    @Inject('RABBITMQ_SERVICE') 
+    @Inject('AUTH_SERVICE') 
     private readonly client: ClientProxy,
 
     private jwt: JwtService,

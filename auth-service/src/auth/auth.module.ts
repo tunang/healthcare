@@ -6,6 +6,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthService } from './auth.service';
 import { User } from 'src/users/entities/user.entity';
 import { OtpModule } from 'src/otp/otp.module';
+import { RmqModule } from 'src/common/rabbitmq.module';
 
 @Module({
   imports: [
@@ -14,7 +15,11 @@ import { OtpModule } from 'src/otp/otp.module';
       secret: 'afsdfasdfasdfasdfasdf', // move to env later
       signOptions: { expiresIn: '1h' },
     }),
-    OtpModule
+    OtpModule,
+    RmqModule.register({
+      name: 'AUTH_SERVICE',
+      queue: 'auth_queue',
+    })
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

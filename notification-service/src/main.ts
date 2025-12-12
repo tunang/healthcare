@@ -1,13 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RabbitmqConsumerModule } from './rabbitmq/rabbitmq-consumer.module';
+import { RmqConfig } from './common/rabbitmq.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT ?? 3000;
 
   // Listen RabbitMQ
-  app.connectMicroservice(RabbitmqConsumerModule.getRMQconfig());
+  app.connectMicroservice(RmqConfig.getOptions('auth_queue'));
   await app.startAllMicroservices();
   
   await app.listen(port);

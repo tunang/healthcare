@@ -5,8 +5,8 @@ import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { OtpModule } from './otp/otp.module';
-import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { ConfigModule } from '@nestjs/config';
+import { RmqModule } from './common/rabbitmq.module';
 
 @Module({
   imports: [
@@ -17,7 +17,8 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     OtpModule,
     DatabaseModule,
-    RabbitmqModule,
+    
+
   ],
   controllers: [AppController],
   providers: [AppService],
